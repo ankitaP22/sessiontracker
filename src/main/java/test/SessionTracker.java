@@ -23,32 +23,38 @@ public class SessionTracker {
 		sessionTrackerPage.launchBrowser();
 	}
 	
-	@Test
-	public void verifyPageTitle() {
+	@Test(description = "Verify Page title")
+	public void test_01() {
 		String title = sessionTrackerPage.getPageTitle();
 		assertEquals(title, "Session Tracker");
 	}
 	
-	@Test
-	public void test_01() {
+	@Test(description = "Verify alert message on click of Save when user does not enters username.")
+	public void test_02() {
 		String alertText = sessionTrackerPage.clickAddEntryButton().getAlertText();
 		assertEquals(alertText, "Username must not be empty");
 	}
 	
-	@Test
-	public void test_02() {
+	@Test(description = "Verify alert message on click of See Last Session when user does not enters username.")
+	public void test_03() {
 		String alertText = sessionTrackerPage.clickFetchEntryButton().getAlertText();
 		assertEquals(alertText, "Username must not be empty");
 	}
 	
-	@Test
-	public void test_03() {
+	@Test(description = "Verify the message when user enters username and clicks Save.")
+	public void test_04() {
 		String name = "Ankita";
 		String expectedMessage = String.format("Last Active Timestamp For %s Added Successfully", name);
 		String message = sessionTrackerPage.enterUserName(name).clickAddEntryButton().getAddEntryMessage();
 		String inputTextValue = sessionTrackerPage.getUserInputValue();
 		assertEquals(message, expectedMessage);
 		assertEquals(inputTextValue, name);
+		
+	}
+	
+	@Test(description = "Verify the message on click of See Last Session.")
+	public void test_05() {
+		String name = "Ankita";
 		String sessionMessage = sessionTrackerPage.clickFetchEntryButton().getSessionMessage();
 		assertThat(sessionMessage, containsString(name));
 	}
